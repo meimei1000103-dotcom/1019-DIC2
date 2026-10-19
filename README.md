@@ -1,10 +1,5 @@
 # 📊 多元線性回歸模型成果展 (Multiple Linear Regression Studio)
 
-> **國立中興大學 人工智慧與資料科學碩士在職學位學程 (NCHU AI-DIC)**  
-> **課程名稱：** 人工智慧與資訊安全 (7972)  
-> **授課教授：** 陳煥 老師  
-> **學號：** 5114050029  
-> **學生姓名：** 陳枚君  
 > **成果網頁 (GitHub Pages)：** [https://meimei1000103-dotcom.github.io/1019-DIC2/](https://meimei1000103-dotcom.github.io/1019-DIC2/)
 
 ---
