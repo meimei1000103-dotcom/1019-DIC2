@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50-Startups 多元線性回歸模型成果展</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            color: #1f3a93;
+            border-bottom: 2px solid #e1e8ed;
+            padding-bottom: 12px;
+        }
+
+        .meta-box {
+            background-color: #eef2f7;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+
+        .img-card {
+            background: #fafbfc;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .img-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #dfe2e5;
+            padding: 10px 14px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f6f8fa;
+        }
+
+        .best-row {
+            background-color: #e8f8f5;
+            font-weight: bold;
+            color: #16a085;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📊 50-Startups 多元線性回歸分析報告</h1>
+
+        <div class="meta-box">
+            <strong>學號：</strong>5114050029 &nbsp;|&nbsp;
+            <strong>姓名：</strong>陳枚君 &nbsp;|&nbsp;
+            <strong>課程：</strong>人工智慧與資訊安全 (NCHU AI-DIC)
+        </div>
+
+        <div class="section">
+            <h2>一、特徵挑選歷程 (Sequential Forward Selection)</h2>
+            <p>透過前向逐步挑選（SFS）演算法，評估 1 到 5 個特徵在多元線性回歸下的 RMSE 與 R² 表現：</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>特徵數量 (k)</th>
+                        <th>加入特徵</th>
+                        <th>RMSE (越低越好)</th>
+                        <th>R² Score (越高越好)</th>
+                        <th>說明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>R&D Spend</td>
+                        <td>8274.52</td>
+                        <td>0.9465</td>
+                        <td>研發支出為最具決定性的單一變數</td>
+                    </tr>
+                    <tr class="best-row">
+                        <td>2</td>
+                        <td>+ Marketing Spend</td>
+                        <td>8198.24</td>
+                        <td>0.9475</td>
+                        <td>🌟 全域最佳組合（最低 RMSE，最高 R²）</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>+ State_New York</td>
+                        <td>8311.20</td>
+                        <td>0.9460</td>
+                        <td>引入多餘特徵，模型開始過度擬合 (Overfitting)</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>+ Administration</td>
+                        <td>8410.65</td>
+                        <td>0.9447</td>
+                        <td>管理費用與利潤關聯性低</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>+ State_Florida</td>
+                        <td>9150.12</td>
+                        <td>0.9347</td>
+                        <td>全特徵模型誤差顯著放大</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="img-card">
+                <h3>特徵評估折線圖 (RMSE vs R-squared)</h3>
+                <img src="features_evaluation.png" alt="50-Startups 特徵數量評估圖">
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>二、模型殘差診斷 (Residual Diagnostics)</h2>
+            <p>針對最佳 2 特徵回歸模型進行殘差檢驗，驗證回歸分析核心假設：</p>
+            <ul>
+                <li><strong>左圖（殘差 vs 預測值）：</strong>誤差點隨機散佈於 0 兩側，符合同質變異性（Homoscedasticity）假設。</li>
+                <li><strong>右圖（殘差分佈圖）：</strong>呈現以 0 為中心的鐘形常態曲線，符合誤差常態分佈假設（Normality of Errors）。</li>
+            </ul>
+            <div class="img-card">
+                <h3>模型殘差診斷圖</h3>
+                <img src="model_residual_diagnostics.png" alt="殘差診斷圖">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
