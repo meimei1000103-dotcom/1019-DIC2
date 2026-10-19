@@ -1,172 +1,273 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+cat << 'EOF'> index.html
+    <!DOCTYPE html>
+    <html lang="zh-TW">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>50-Startups 多元線性回歸模型成果展</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI & 資安：多元線性回歸成果展 (互動下拉切換)</title>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                background-color: #f0f2f5;
+                color: #2d3748;
+                margin: 0;
+                padding: 25px;
+            }
 
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+                background: #fff;
+                border-radius: 12px;
+                padding: 35px;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            }
 
-        h1 {
-            color: #1f3a93;
-            border-bottom: 2px solid #e1e8ed;
-            padding-bottom: 12px;
-        }
+            h1 {
+                color: #1a365d;
+                border-bottom: 3px solid #3182ce;
+                padding-bottom: 12px;
+                margin-top: 0;
+            }
 
-        .meta-box {
-            background-color: #eef2f7;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            font-size: 15px;
-        }
+            .meta-box {
+                background: #edf2f7;
+                padding: 14px 20px;
+                border-radius: 8px;
+                margin-bottom: 25px;
+                font-weight: 500;
+                font-size: 15px;
+            }
 
-        .section {
-            margin-bottom: 35px;
-        }
+            /* 下拉選單控制列樣式 */
+            .selector-bar {
+                background: #ebf8ff;
+                border: 2px solid #bee3f8;
+                border-radius: 8px;
+                padding: 16px 20px;
+                margin-bottom: 30px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
 
-        h2 {
-            color: #2c3e50;
-            margin-top: 20px;
-        }
+            .selector-bar label {
+                font-size: 16px;
+                font-weight: bold;
+                color: #2b6cb0;
+            }
 
-        .img-card {
-            background: #fafbfc;
-            border: 1px solid #e1e8ed;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            margin-top: 15px;
-        }
+            .selector-bar select {
+                padding: 10px 16px;
+                font-size: 15px;
+                border-radius: 6px;
+                border: 1px solid #3182ce;
+                background-color: #fff;
+                color: #2d3748;
+                font-weight: 600;
+                cursor: pointer;
+                outline: none;
+            }
 
-        .img-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 6px;
-        }
+            .dataset-section {
+                display: none;
+            }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
+            .dataset-section.active {
+                display: block;
+                animation: fadeIn 0.3s ease-in-out;
+            }
 
-        th,
-        td {
-            border: 1px solid #dfe2e5;
-            padding: 10px 14px;
-            text-align: center;
-        }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(6px);
+                }
 
-        th {
-            background-color: #f6f8fa;
-        }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
 
-        .best-row {
-            background-color: #e8f8f5;
-            font-weight: bold;
-            color: #16a085;
-        }
-    </style>
-</head>
+            .card {
+                background: #fafbfc;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 25px;
+                text-align: center;
+            }
 
-<body>
-    <div class="container">
-        <h1>📊 50-Startups 多元線性回歸分析報告</h1>
+            img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 6px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                margin-top: 15px;
+            }
 
-        <div class="meta-box">
-            <strong>學號：</strong>5114050029 &nbsp;|&nbsp;
-            <strong>姓名：</strong>陳枚君 &nbsp;|&nbsp;
-            <strong>課程：</strong>人工智慧與資訊安全 (NCHU AI-DIC)
-        </div>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
 
-        <div class="section">
-            <h2>一、特徵挑選歷程 (Sequential Forward Selection)</h2>
-            <p>透過前向逐步挑選（SFS）演算法，評估 1 到 5 個特徵在多元線性回歸下的 RMSE 與 R² 表現：</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>特徵數量 (k)</th>
-                        <th>加入特徵</th>
-                        <th>RMSE (越低越好)</th>
-                        <th>R² Score (越高越好)</th>
-                        <th>說明</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>R&D Spend</td>
-                        <td>8274.52</td>
-                        <td>0.9465</td>
-                        <td>研發支出為最具決定性的單一變數</td>
-                    </tr>
-                    <tr class="best-row">
-                        <td>2</td>
-                        <td>+ Marketing Spend</td>
-                        <td>8198.24</td>
-                        <td>0.9475</td>
-                        <td>🌟 全域最佳組合（最低 RMSE，最高 R²）</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>+ State_New York</td>
-                        <td>8311.20</td>
-                        <td>0.9460</td>
-                        <td>引入多餘特徵，模型開始過度擬合 (Overfitting)</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>+ Administration</td>
-                        <td>8410.65</td>
-                        <td>0.9447</td>
-                        <td>管理費用與利潤關聯性低</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>+ State_Florida</td>
-                        <td>9150.12</td>
-                        <td>0.9347</td>
-                        <td>全特徵模型誤差顯著放大</td>
-                    </tr>
-                </tbody>
-            </table>
+            th,
+            td {
+                border: 1px solid #cbd5e0;
+                padding: 10px;
+                text-align: center;
+                font-size: 14px;
+            }
 
-            <div class="img-card">
-                <h3>特徵評估折線圖 (RMSE vs R-squared)</h3>
-                <img src="features_evaluation.png" alt="50-Startups 特徵數量評估圖">
+            th {
+                background: #ebf8ff;
+                color: #2b6cb0;
+            }
+
+            .highlight {
+                background: #e6fffa;
+                font-weight: bold;
+                color: #234e52;
+            }
+
+            .tag {
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 12px;
+                background: #feebc8;
+                color: #c05621;
+                font-size: 13px;
+                font-weight: 600;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>📊 多元線性回歸模型成果展 (Multiple Linear Regression)</h1>
+            <div class="meta-box">
+                <strong>學號：</strong>5114050029 &nbsp;|&nbsp;
+                <strong>姓名：</strong>陳枚君 &nbsp;|&nbsp;
+                <strong>課程：</strong>人工智慧與資訊安全 (7972) &nbsp;|&nbsp;
+                <strong>授課教授：</strong>陳煥 老師
+            </div>
+
+            <!-- 下拉選單 -->
+            <div class="selector-bar">
+                <label for="datasetSelect">🔍 請選擇欲檢視的資料集成果：</label>
+                <select id="datasetSelect" onchange="changeDataset()">
+                    <option value="spotify">🎵 HW2: Spotify Tracks (流行度預測，特徵數 11~29)</option>
+                    <option value="startup">💼 專案一: 50-Startups (公司利潤預測)</option>
+                    <option value="boston">🏡 專案二: Boston Housing (房價預測)</option>
+                </select>
+            </div>
+
+            <!-- 區塊 1: Spotify HW2 -->
+            <div id="spotify" class="dataset-section active">
+                <h2>🎵 HW2: Spotify Tracks 音樂流行度預測 <span class="tag">符合作業規範：11 &lt; 特徵數 &lt; 30</span></h2>
+                <p><strong>資料集來源：</strong>Kaggle Spotify Tracks Dataset (選用 15 個關鍵聲學與曲風特徵，預測 0~100 流行度分數)</p>
+                <div class="card">
+                    <h3>特徵數量評估折線圖 (RMSE vs R-squared)</h3>
+                    <img src="spotify_features_evaluation.png" alt="Spotify 特徵折線圖">
+                </div>
+                <div class="card">
+                    <h3>模型殘差診斷圖 (Residual Diagnostics)</h3>
+                    <p>左圖殘差隨機散佈於 0 兩側；右圖長條圖呈現鐘形分佈，符合常態分佈假設（Normality of Errors）。</p>
+                    <img src="spotify_residual_diagnostics.png" alt="Spotify 殘差圖">
+                </div>
+            </div>
+
+            <!-- 區塊 2: 50-Startups -->
+            <div id="startup" class="dataset-section">
+                <h2>💼 50-Startups 公司利潤預測</h2>
+                <p>分析研發支出、行銷費用與州別特徵，評估 1 到 5 個特徵之前向逐步挑選結果：</p>
+                <div class="card">
+                    <h3>特徵數量評估折線圖 (RMSE vs R-squared)</h3>
+                    <img src="features_evaluation.png" alt="50-Startups 折線圖">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>特徵數 (k)</th>
+                                <th>加入特徵</th>
+                                <th>RMSE</th>
+                                <th>R²</th>
+                                <th>說明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>R&D Spend</td>
+                                <td>8274.52</td>
+                                <td>0.9465</td>
+                                <td>研發支出為最具決定性變數</td>
+                            </tr>
+                            <tr class="highlight">
+                                <td>2</td>
+                                <td>+ Marketing Spend</td>
+                                <td>8198.24</td>
+                                <td>0.9475</td>
+                                <td>🌟 全域最佳組合（最低 RMSE / 最高 R²）</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>+ State_New York</td>
+                                <td>8311.20</td>
+                                <td>0.9460</td>
+                                <td>引入多餘特徵，開始輕度過擬合</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>+ Administration</td>
+                                <td>8410.65</td>
+                                <td>0.9447</td>
+                                <td>管理費與利潤無顯著相關</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>+ State_Florida</td>
+                                <td>9150.12</td>
+                                <td>0.9347</td>
+                                <td>全特徵模型誤差顯著增加</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>模型殘差診斷圖 (Residual Diagnostics)</h3>
+                    <img src="model_residual_diagnostics.png" alt="50-Startups 殘差圖">
+                </div>
+            </div>
+
+            <!-- 區塊 3: Boston Housing -->
+            <div id="boston" class="dataset-section">
+                <h2>🏡 Boston Housing 波士頓房價預測</h2>
+                <p>使用 13 個住宅與環境特徵進行逐步回歸評估：</p>
+                <div class="card">
+                    <h3>特徵數量評估折線圖 (13 個特徵)</h3>
+                    <img src="boston_evaluation.png" alt="Boston 評估圖">
+                </div>
             </div>
         </div>
 
-        <div class="section">
-            <h2>二、模型殘差診斷 (Residual Diagnostics)</h2>
-            <p>針對最佳 2 特徵回歸模型進行殘差檢驗，驗證回歸分析核心假設：</p>
-            <ul>
-                <li><strong>左圖（殘差 vs 預測值）：</strong>誤差點隨機散佈於 0 兩側，符合同質變異性（Homoscedasticity）假設。</li>
-                <li><strong>右圖（殘差分佈圖）：</strong>呈現以 0 為中心的鐘形常態曲線，符合誤差常態分佈假設（Normality of Errors）。</li>
-            </ul>
-            <div class="img-card">
-                <h3>模型殘差診斷圖</h3>
-                <img src="model_residual_diagnostics.png" alt="殘差診斷圖">
-            </div>
-        </div>
-    </div>
-</body>
+        <!-- 切換視窗 JavaScript 邏輯 -->
+        <script>
+            function changeDataset() {
+                var selected = document.getElementById("datasetSelect").value;
+                var sections = document.getElementsByClassName("dataset-section");
+                for (var i = 0; i < sections.length; i++) {
+                    sections[i].classList.remove("active");
+                }
+                var target = document.getElementById(selected);
+                if (target) {
+                    target.classList.add("active");
+                }
+            }
+        </script>
+    </body>
 
-</html>
+    </html>
+    EOF
