@@ -22,7 +22,7 @@ y = dataset['Profit']
 X = pd.get_dummies(X, columns=['State'], drop_first=True)
 
 # 4. 切分訓練集與測試集 (80% 訓練, 20% 測試)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
 # 5. 建立並訓練多元線性回歸模型
 regressor = LinearRegression()

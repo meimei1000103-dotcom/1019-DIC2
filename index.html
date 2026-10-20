@@ -1,6 +1,5 @@
-cat << 'EOF'> index.html
-    <!DOCTYPE html>
-    <html lang="zh-TW">
+<!DOCTYPE html>
+<html lang="zh-TW">
 
     <head>
         <meta charset="UTF-8">
@@ -201,37 +200,37 @@ cat << 'EOF'> index.html
                             <tr>
                                 <td>1</td>
                                 <td>R&D Spend</td>
-                                <td>8274.52</td>
+                                <td>8274.87</td>
                                 <td>0.9465</td>
                                 <td>研發支出為最具決定性變數</td>
                             </tr>
                             <tr class="highlight">
                                 <td>2</td>
                                 <td>+ Marketing Spend</td>
-                                <td>8198.24</td>
-                                <td>0.9475</td>
+                                <td>8198.80</td>
+                                <td>0.9474</td>
                                 <td>🌟 全域最佳組合（最低 RMSE / 最高 R²）</td>
                             </tr>
                             <tr>
                                 <td>3</td>
                                 <td>+ State_New York</td>
-                                <td>8311.20</td>
+                                <td>8309.06</td>
                                 <td>0.9460</td>
                                 <td>引入多餘特徵，開始輕度過擬合</td>
                             </tr>
                             <tr>
                                 <td>4</td>
-                                <td>+ Administration</td>
-                                <td>8410.65</td>
+                                <td>+ State_Florida</td>
+                                <td>8409.92</td>
                                 <td>0.9447</td>
-                                <td>管理費與利潤無顯著相關</td>
+                                <td>加入次要州別變數，預測誤差持續上升</td>
                             </tr>
                             <tr>
                                 <td>5</td>
-                                <td>+ State_Florida</td>
-                                <td>9150.12</td>
+                                <td>+ Administration</td>
+                                <td>9137.99</td>
                                 <td>0.9347</td>
-                                <td>全特徵模型誤差顯著增加</td>
+                                <td>全特徵模型誤差顯著增加 (RMSE 突破 9100)</td>
                             </tr>
                         </tbody>
                     </table>
@@ -270,4 +269,3 @@ cat << 'EOF'> index.html
     </body>
 
     </html>
-    EOF
